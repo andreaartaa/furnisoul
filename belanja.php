@@ -5,7 +5,7 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Furnisoul</title>
+    <title>Belanja - Furnisoul</title>
     <link rel="icon" href="img/favicon.png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -27,6 +27,50 @@
     <link rel="stylesheet" href="css/price_rangs.css">
     <!-- style CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        .single_product_item {
+            text-align: center;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .product_img_wrapper {
+            width: 100%;
+            height: 200px;
+            /* Sesuaikan tinggi gambar */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .product_img_wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Crop gambar agar tetap proporsional */
+            border-radius: 10px;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -8px;
+            background: #f72a74;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 10px;
+            font-weight: bold;
+            line-height: 1;
+            min-width: 16px;
+            text-align: center;
+            z-index: 10;
+        }
+    </style>
 </head>
 
 <body>
@@ -36,10 +80,10 @@
             <div class="row align-items-center">
                 <div class="col-lg-12">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="index.html"> <h1>Furnisoul</h1> </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
+                        <a class="navbar-brand mx-auto" href="index.php">
+                            <h1 class="m-0">Furnisoul</h1>
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="menu_icon"><i class="fas fa-bars"></i></span>
                         </button>
 
@@ -48,61 +92,58 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="index.php">Beranda</a>
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Belanja
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Hubungi Kami
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                    </div>
-                                </li>
-                                
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="blog.html"> blog</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                                    </div>
-                                </li>
-
                                 <li class="nav-item">
+                                    <a class="nav-link" href="belanja.php">Belanja</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="contact.php">Hubungi Kami</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="hearer_icon d-flex">
-                            
-                            <a href=""></a>
-                            <div class="dropdown cart">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdown3" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-cart-plus"></i>
-                                </a>
-                                <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <div class="single_product">
-    
-                                    </div>
-                                </div> -->
+                        <?php session_start(); ?>
+                        <?php if (isset($_SESSION['username'])) : ?>
+                            <div class="header_icon d-flex">
+                                <!-- Cart Link -->
+                                <?php
+                                include 'admin/koneksi.php';
 
+                                $user_id = $_SESSION['id_user'] ?? null;
+
+                                if ($user_id) {
+                                    $query = "SELECT COUNT(*) as total FROM tb_pesanan WHERE id_user = '$user_id'";
+                                    $result = mysqli_query($koneksi, $query);
+                                    $data = mysqli_fetch_assoc($result);
+                                    $jumlah_item = $data['total'] ?? 0;
+                                } else {
+                                    $jumlah_item = 0;
+                                }
+                                ?>
+
+                                <a href="cart.php" id="cartLink" style="position: relative; display: inline-block;">
+                                    <i class="fas fa-cart-plus" style="font-size: 16px;"></i>
+                                    <span class="cart-badge"><?= $jumlah_item ?></span>
+                                </a>
+
+                                <!-- User Dropdown -->
+                                <div class="dropdown user">
+                                    <a class="dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-user"></i>
+                                        <span class="ml-2 text-dark"><?= htmlspecialchars($_SESSION['username']); ?></span> <!-- Menampilkan username dari session -->
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                        <a class="dropdown-item" href="logout.php">Logout</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+
+
+                        <?php else : ?>
+                            <!-- Login Button -->
+                            <a href="login.php" class="btn btn-primary ml-3 px-3 py-2" style="border-radius: 20px;">Login</a>
+                        <?php endif; ?>
+
                     </nav>
                 </div>
-            </div>
-        </div>
-        <div class="search_input" id="search_input_box">
-            <div class="container ">
-                <form class="d-flex justify-content-between search-inner">
-                    <input type="text" class="form-control" id="search_input" placeholder="Search Here">
-                    <button type="submit" class="btn"></button>
-                    <span class="ti-close" id="close_search" title="Close Search"></span>
-                </form>
             </div>
         </div>
     </header>
@@ -117,7 +158,7 @@
                     <div class="breadcrumb_iner">
                         <div class="breadcrumb_iner_item">
                             <h2>Belanja</h2>
-                            <p>Beranda<span>-</span>Belanja</p>
+                            <p>Beranda<span>-</span> Belanja</p>
                         </div>
                     </div>
                 </div>
@@ -134,128 +175,39 @@
                     <div class="left_sidebar_area">
                         <aside class="left_widgets p_filter_widgets">
                             <div class="l_w_title">
-                                <h3>Browse Categories</h3>
+                                <h3>Kategori Produk</h3>
                             </div>
-                            <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Frozen Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Dried Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Fresh Fish</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat Alternatives</a>
-                                        <span>(250)</span>
-                                    </li>
-                                    <li>
-                                        <a href="#">Meat</a>
-                                        <span>(250)</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </aside>
+                            <?php
+                            include 'admin/koneksi.php'; // Pastikan file koneksi ada
 
-                        <aside class="left_widgets p_filter_widgets">
-                            <div class="l_w_title">
-                                <h3>Product filters</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Asus</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Gionee</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Samsung</a>
-                                    </li>
-                                </ul>
-                                <ul class="list">
-                                    <li>
-                                        <a href="#">Apple</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Asus</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Gionee</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Micromax</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Samsung</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </aside>
+                            // Ambil kategori yang dipilih dari URL
+                            $id_kategori = isset($_GET['id_kategori']) ? mysqli_real_escape_string($koneksi, $_GET['id_kategori']) : null;
 
-                        <aside class="left_widgets p_filter_widgets">
-                            <div class="l_w_title">
-                                <h3>Color Filter</h3>
-                            </div>
+                            // Ambil semua kategori beserta jumlah produknya
+                            $query_kategori = "
+    SELECT k.id_kategori, k.nm_kategori, COUNT(p.id_produk) AS jumlah_produk 
+    FROM tb_kategori k
+    LEFT JOIN tb_produk p ON k.id_kategori = p.id_kategori
+    GROUP BY k.id_kategori
+";
+                            $result_kategori = mysqli_query($koneksi, $query_kategori);
+                            ?>
+
+                            <!-- Sidebar Kategori -->
                             <div class="widgets_inner">
                                 <ul class="list">
                                     <li>
-                                        <a href="#">Black</a>
+                                        <a href="?" <?php echo is_null($id_kategori) ? 'style="font-weight:bold;"' : ''; ?>>Semua Kategori</a>
                                     </li>
-                                    <li>
-                                        <a href="#">Black Leather</a>
-                                    </li>
-                                    <li class="active">
-                                        <a href="#">Black with red</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Gold</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Spacegrey</a>
-                                    </li>
+                                    <?php while ($row_kategori = mysqli_fetch_assoc($result_kategori)) { ?>
+                                        <li>
+                                            <a href="?id_kategori=<?php echo $row_kategori['id_kategori']; ?>" <?php echo ($id_kategori == $row_kategori['id_kategori']) ? 'style="font-weight:bold;"' : ''; ?>>
+                                                <?php echo htmlspecialchars($row_kategori['nm_kategori']); ?>
+                                            </a>
+                                            <span>(<?php echo $row_kategori['jumlah_produk']; ?>)</span>
+                                        </li>
+                                    <?php } ?>
                                 </ul>
-                            </div>
-                        </aside>
-
-                        <aside class="left_widgets p_filter_widgets price_rangs_aside">
-                            <div class="l_w_title">
-                                <h3>Price Filter</h3>
-                            </div>
-                            <div class="widgets_inner">
-                                <div class="range_item">
-                                    <!-- <div id="slider-range"></div> -->
-                                    <input type="text" class="js-range-slider" value="" />
-                                    <div class="d-flex">
-                                        <div class="price_text">
-                                            <p>Price :</p>
-                                        </div>
-                                        <div class="price_value d-flex justify-content-center">
-                                            <input type="text" class="js-input-from" id="amount" readonly />
-                                            <span>to</span>
-                                            <input type="text" class="js-input-to" id="amount" readonly />
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </aside>
                     </div>
@@ -264,216 +216,112 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
-                                <div class="single_product_menu">
-                                    <p><span>10000 </span> Prodict Found</p>
-                                </div>
                                 <div class="single_product_menu d-flex">
-                                    <h5>short by : </h5>
-                                    <select>
-                                        <option data-display="Select">name</option>
-                                        <option value="1">price</option>
-                                        <option value="2">product</option>
-                                    </select>
-                                </div>
-                                <div class="single_product_menu d-flex">
-                                    <h5>show :</h5>
-                                    <div class="top_pageniation">
-                                        <ul>
-                                            <li>1</li>
-                                            <li>2</li>
-                                            <li>3</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="single_product_menu d-flex">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="search"
-                                            aria-describedby="inputGroupPrepend">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupPrepend"><i
-                                                    class="ti-search"></i></span>
+                                    <form method="GET" action="">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="search" placeholder="Cari produk..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                                            <div class="input-group-prepend">
+                                                <button type="submit" class="input-group-text"><i class="ti-search"></i></button>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    <?php
+                    // Tentukan jumlah produk per halaman
+                    $limit = 6;
+                    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                    $start = ($page - 1) * $limit;
+
+                    // Ambil kata kunci pencarian jika ada
+                    $search = isset($_GET['search']) ? mysqli_real_escape_string($koneksi, $_GET['search']) : "";
+
+                    // Query produk berdasarkan kategori & pencarian
+                    $where_clause = "1=1"; // Default menampilkan semua produk
+                    if (!empty($search)) {
+                        $where_clause .= " AND nm_produk LIKE '%$search%'";
+                    }
+                    if (!empty($id_kategori)) {
+                        $where_clause .= " AND id_kategori = '$id_kategori'"; // Perhatikan tanda kutip untuk string
+                    }
+
+                    // Query produk dengan filter kategori dan pencarian
+                    $query_produk = "SELECT * FROM tb_produk WHERE $where_clause LIMIT $start, $limit";
+                    $query_total = "SELECT COUNT(*) AS total FROM tb_produk WHERE $where_clause";
+
+                    $result_produk = mysqli_query($koneksi, $query_produk);
+                    $total_result = mysqli_query($koneksi, $query_total);
+                    $total_row = mysqli_fetch_assoc($total_result);
+                    $total_products = $total_row['total'];
+                    $total_pages = ceil($total_products / $limit);
+                    ?>
+
+                    <!-- Produk List -->
                     <div class="row align-items-center latest_product_inner">
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_1.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
+                        <?php while ($row_produk = mysqli_fetch_assoc($result_produk)) { ?>
+                            <div class="col-lg-4 col-sm-6">
+                                <div class="single_product_item">
+                                    <div class="product_img_wrapper">
+                                        <img src="admin/produk_img/<?php echo htmlspecialchars($row_produk['gambar']); ?>" alt="">
+                                    </div>
+                                    <div class="single_product_text">
+                                        <h4><?php echo htmlspecialchars($row_produk['nm_produk']); ?></h4>
+                                        <h3>Rp <?php echo number_format($row_produk['harga'], 0, ',', '.'); ?></h3>
+                                        <a href="detail_produk.php?id=<?php echo $row_produk['id_produk']; ?>" class="add_cart">+ keranjang</a>
+                                    </div>
                                 </div>
                             </div>
+                        <?php } ?>
+                    </div>
+
+                    <?php if (mysqli_num_rows($result_produk) == 0) { ?>
+                        <div class="col-lg-12 text-center">
+                            <p>Produk tidak ditemukan.</p>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_3.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_4.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_5.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_6.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_7.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_8.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_product_item">
-                                <img src="img/product/product_2.png" alt="">
-                                <div class="single_product_text">
-                                    <h4>Quartz Belt Watch</h4>
-                                    <h3>$150.00</h3>
-                                    <a href="#" class="add_cart">+ add to cart<i class="ti-heart"></i></a>
-                                </div>
-                            </div>
-                        </div>
+                    <?php } ?>
+
+                    <!-- Pagination -->
+                    <?php if ($total_pages > 1) { ?>
                         <div class="col-lg-12">
                             <div class="pageination">
                                 <nav aria-label="Page navigation example">
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Previous">
-                                                <i class="ti-angle-double-left"></i>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">6</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#" aria-label="Next">
-                                                <i class="ti-angle-double-right"></i>
-                                            </a>
-                                        </li>
+                                        <?php if ($page > 1) { ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?id_kategori=<?php echo $id_kategori; ?>&search=<?php echo $search; ?>&page=<?php echo ($page - 1); ?>" aria-label="Previous">
+                                                    <i class="ti-angle-double-left"></i>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
+
+                                        <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                                            <li class="page-item <?php echo ($i == $page) ? 'active' : ''; ?>">
+                                                <a class="page-link" href="?id_kategori=<?php echo $id_kategori; ?>&search=<?php echo $search; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                                            </li>
+                                        <?php } ?>
+
+                                        <?php if ($page < $total_pages) { ?>
+                                            <li class="page-item">
+                                                <a class="page-link" href="?id_kategori=<?php echo $id_kategori; ?>&search=<?php echo $search; ?>&page=<?php echo ($page + 1); ?>" aria-label="Next">
+                                                    <i class="ti-angle-double-right"></i>
+                                                </a>
+                                            </li>
+                                        <?php } ?>
                                     </ul>
                                 </nav>
                             </div>
                         </div>
-                    </div>
+                    <?php } ?>
+
                 </div>
             </div>
         </div>
     </section>
     <!--================End Category Product Area =================-->
 
-    <!-- product_list part start-->
-    <section class="product_list best_seller">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-12">
-                    <div class="section_tittle text-center">
-                        <h2>Best Sellers <span>shop</span></h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-between">
-                <div class="col-lg-12">
-                    <div class="best_product_slider owl-carousel">
-                        <div class="single_product_item">
-                            <img src="img/product/product_1.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_2.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_3.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_4.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                        <div class="single_product_item">
-                            <img src="img/product/product_5.png" alt="">
-                            <div class="single_product_text">
-                                <h4>Quartz Belt Watch</h4>
-                                <h3>$150.00</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- product_list part end-->
 
     <!--::footer_part start::-->
@@ -481,67 +329,14 @@
         <div class="container">
             <div class="row justify-content-around">
                 <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Top Products</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Managed Website</a></li>
-                            <li><a href="">Manage Reputation</a></li>
-                            <li><a href="">Power Tools</a></li>
-                            <li><a href="">Marketing Service</a></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Quick Links</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Jobs</a></li>
-                            <li><a href="">Brand Assets</a></li>
-                            <li><a href="">Investor Relations</a></li>
-                            <li><a href="">Terms of Service</a></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Features</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Jobs</a></li>
-                            <li><a href="">Brand Assets</a></li>
-                            <li><a href="">Investor Relations</a></li>
-                            <li><a href="">Terms of Service</a></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="col-sm-6 col-lg-2">
-                    <div class="single_footer_part">
-                        <h4>Resources</h4>
-                        <ul class="list-unstyled">
-                            <li><a href="">Guides</a></li>
-                            <li><a href="">Research</a></li>
-                            <li><a href="">Experts</a></li>
-                            <li><a href="">Agencies</a></li>
-                        </ul>
-                    </div>
                 </div>
                 <div class="col-sm-6 col-lg-4">
-                    <div class="single_footer_part">
-                        <h4>Newsletter</h4>
-                        <p>Heaven fruitful doesn't over lesser in days. Appear creeping
-                        </p>
-                        <div id="mc_embed_signup">
-                            <form target="_blank"
-                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                                method="get" class="subscribe_form relative mail_part">
-                                <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
-                                    class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                                    onblur="this.placeholder = ' Email Address '">
-                                <button type="submit" name="submit" id="newsletter-submit"
-                                    class="email_icon newsletter-submit button-contactForm">subscribe</button>
-                                <div class="mt-10 info"></div>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -552,17 +347,17 @@
                     <div class="col-lg-8">
                         <div class="copyright_text">
                             <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
+                                Copyright &copy;<script>
+                                    document.write(new Date().getFullYear());
+                                </script> All rights reserved | Furnisoul by <a href="#" target="_blank">Andrea Arta</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="footer_icon social_icon">
                             <ul class="list-unstyled">
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
+                                <li><a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" class="single_social_icon" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                <li><a href="https://instagram.com/meaffq/" class="single_social_icon" target="_blank"><i class="fab fa-instagram"></i></a></li>
                             </ul>
                         </div>
                     </div>

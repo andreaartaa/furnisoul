@@ -1,4 +1,21 @@
 <?php
+session_start();
+include "koneksi.php";
+
+// Cek apakah sudah login
+if (!isset($_SESSION["login"])) {
+    header("Location: login.php");
+    exit;
+}
+
+// Cek apakah status tersedia dan pastikan user adalah admin
+if (!isset($_SESSION["status"]) || $_SESSION["status"] !== "admin") {
+    echo "<script>alert('Akses ditolak! Halaman ini hanya untuk admin.'); window.location.href='login.php'</script>";
+    exit;
+}
+?>
+
+<?php
 include "koneksi.php";
 
 // Pastikan ada ID produk yang dikirimkan
