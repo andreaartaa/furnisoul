@@ -357,7 +357,6 @@
                         <div class="footer_icon social_icon">
                             <ul class="list-unstyled">
                                 <li><a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" class="single_social_icon" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                                <li><a href="https://instagram.com/meaffq/" class="single_social_icon" target="_blank"><i class="fab fa-instagram"></i></a></li>
                             </ul>
                         </div>
                     </div>
