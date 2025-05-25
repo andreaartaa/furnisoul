@@ -131,7 +131,7 @@ $data = mysqli_fetch_array($sql);
                             <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                 Copyright &copy;<script>
                                     document.write(new Date().getFullYear());
-                                </script> All rights reserved | Furnisoul <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Andrea Arta</a>
+                                </script> All rights reserved | Furnisoul </i> by <a href="https://colorlib.com" target="_blank">Andrea Arta</a>
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
                         </div>
                     </div>
