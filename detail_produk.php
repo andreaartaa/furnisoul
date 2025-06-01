@@ -252,7 +252,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <p><?php echo nl2br(string: $produk['desk']); ?></php>
+            <p><?php echo nl2br($produk['desk']); ?></php>
           </div>
           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="table-responsive">
