@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Furnisoul</title>
+  <title>Detail Produk - Furnisoul</title>
   <link rel="icon" href="img/favicon.png">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -296,7 +296,7 @@
             <div class="best_product_slider owl-carousel">
               <?php while ($produk_lain = $result_produk_lain->fetch_assoc()) { ?>
                 <div class="single_product_item">
-                  <img src="admin/produk_img/<?php echo $produk_lain['gambar']; ?>" alt="<?php echo $produk_lain['nm_produk']; ?>" style="width: 200px; height: 210; object-fit: cover;"
+                  <img src="admin/produk_img/<?php echo $produk_lain['gambar']; ?>" alt="<?php echo $produk_lain['nm_produk']; ?>" style="width: 200px; height: 210; object-fit: cover;">
                     <div class="single_product_text">
                   <h4><?php echo $produk_lain['nm_produk']; ?></h4>
                   <h3>Rp <?php echo number_format($produk_lain['harga'], 0, ',', '.'); ?></h3>

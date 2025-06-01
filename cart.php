@@ -59,6 +59,7 @@
             <?php session_start(); ?>
             <?php if (isset($_SESSION['username'])) : ?>
               <div class="header_icon d-flex">
+
                 <!-- User Dropdown -->
                 <div class="dropdown user">
                   <a class="dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -116,11 +117,11 @@
           }
 
           $id_user = $_SESSION['id_user']; // Ambil user_id dari sesi
-          $query = "SELECT p.id_pesanan, pr.nm_produk, pr.harga, p.qty, (pr.harga * p.qty) AS total, pr.gambar
-          FROM tb_pesanan p
-          JOIN tb_produk pr ON p.id_produk = pr.id_produk
-          JOIN tb_user u ON p.id_user = u.id_user
-          WHERE u.id_user = '$id_user'";
+          $query = "SELECT p.id_pesanan, pr.nm_produk, pr.harga, p.qty, (pr.harga * p.qty) AS total, pr.gambar 
+                    FROM tb_pesanan p
+                    JOIN tb_produk pr ON p.id_produk = pr.id_produk
+                    JOIN tb_user u ON p.id_user = u.id_user
+                    WHERE u.id_user = '$id_user'";
 
           $result = mysqli_query($koneksi, $query);
 
@@ -136,108 +137,106 @@
           ?>
 
           <form action="update_cart.php" method="POST">
-            <form action="" method="post">
-              <table class="table">
-                <thead>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th style="width: 40%;">Produk</th>
+                  <th style="width: 20%;">Harga</th>
+                  <th style="width: 20%;">Jumlah</th>
+                  <th style="width: 15%;">Total</th>
+                  <th style="width: 5%;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                $subtotal = 0;
+                while ($row = mysqli_fetch_assoc($result)) {
+                  $subtotal += $row['total'];
+                ?>
                   <tr>
-                    <th style="width: 40%;">Produk</th>
-                    <th style="width: 20%;">Harga</th>
-                    <th style="width: 20%;">Jumlah</th>
-                    <th style="width: 15%;">Total</th>
-                    <th style="width: 5%;">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php
-                  $subtotal = 0;
-                  while ($row = mysqli_fetch_assoc($result)) {
-                    $subtotal += $row['total'];
-                  ?>
-                    <tr>
-                      <td>
-                        <div clas="media d-flex align-items-center">
-                          <img src="admin/produk_img/<?php echo $row['gambar']; ?>" alt="" width="80px" class="me-3" />
-                          <p class="mb-0 p-3"><?php echo $row['nm_produk']; ?></p>
-                        </div>
-                      </td>
-                      <td>
-                        <h5>Rp. <?php echo number_format($row['harga'], 0, ',', '.'); ?></h5>
-                      </td>
-                      <td>
-                        <div class="product_count">
-                          <span class="input-number-decrement"><i class="ti-angle-down"></i></span>
-                          <input class="input-number" type="number" name="qty[<?php echo $row['id_pesanan']; ?>]" value="<?php echo $row['qty']; ?>" min="1">
-                          <span class="input-number-increment"><i class="ti-angle-up"></i></span>
-                        </div>
-                      </td>
-                      <td>
-                        <h5>Rp. <?php echo number_format($row['total'], 0, ',', '.'); ?></h5>
-                      </td>
-                      <td>
-                        <a href="hapus_cart.php?id_pesanan=<?php echo $row['id_pesanan']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus item ini?');">
-                          <i class="ti-close"></i>
-                        </a>
-                      </td>
-
-                    </tr>
-                  <?php } ?>
-
-                  <!-- Diskon -->
-                  <?php
-                  $diskon = 0;
-                  if ($subtotal > 700000 && $subtotal <= 1500000) {
-                    $diskon = 0.05 * $subtotal;
-                  } elseif ($subtotal > 1500000) {
-                    $diskon = 0.08 * $subtotal;
-                  }
-                  $total_bayar = $subtotal - $diskon;
-
-                  ?>
-
-                  <tr class="bottom_button">
-                    <td colspan="5">
-                      <button type="submit" class="btn_1">Update Cart</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="3"></td>
                     <td>
-                      <h5>Subtotal</h5>
+                      <div class="media d-flex align-items-center">
+                        <img src="admin/produk_img/<?php echo $row['gambar']; ?>" alt="" width="80px" class="me-3" />
+                        <p class="mb-0 p-3"><?php echo $row['nm_produk']; ?></p>
+                      </div>
                     </td>
-                    <td style="text-align: right;">
-                      <h5 style="white-space: nowrap;">Rp. <?php echo number_format($subtotal, 0, ',', '.'); ?></h5>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="3"></td>
                     <td>
-                      <h5>Diskon</h5>
+                      <h5>Rp. <?php echo number_format($row['harga'], 0, ',', '.'); ?></h5>
                     </td>
-                    <td style="text-align: right;">
-                      <h5 style="display: flex; justify-content: flex-start; gap: 5px;">Rp. <?php echo number_format($diskon, 0, ',', '.'); ?></h5>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td colspan="3"></td>
                     <td>
-                      <h5>Total Bayar</h5>
+                      <div class="product_count">
+                        <span class="input-number-decrement"><i class="ti-angle-down"></i></span>
+                        <input class="input-number" type="number" name="qty[<?php echo $row['id_pesanan']; ?>]" value="<?php echo $row['qty']; ?>" min="1">
+                        <span class="input-number-increment"><i class="ti-angle-up"></i></span>
+                      </div>
                     </td>
-                    <td style="text-align: right;">
-                      <h5>Rp. <?php echo number_format($total_bayar, 0, ',', '.'); ?></h5>
+                    <td>
+                      <h5>Rp. <?php echo number_format($row['total'], 0, ',', '.'); ?></h5>
                     </td>
+                    <td>
+                      <a href="hapus_cart.php?id_pesanan=<?php echo $row['id_pesanan']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus item ini?');">
+                        <i class="ti-close"></i>
+                      </a>
+                    </td>
+
                   </tr>
-                </tbody>
-              </table>
-            </form>
-            <div class="checkout_btn_inner float-right">
-              <a class="btn_1" href="belanja.php">Continue Shopping</a>
-              <a class="btn_1 checkout_btn_1" id="checkoutBtn" href="#">Proceed to checkout</a>
-            </div>
+                <?php } ?>
+
+                <!-- Diskon -->
+                <?php
+                $diskon = 0;
+                if ($subtotal > 700000 && $subtotal <= 1500000) {
+                  $diskon = 0.05 * $subtotal;
+                } elseif ($subtotal > 1500000) {
+                  $diskon = 0.08 * $subtotal;
+                }
+                $total_bayar = $subtotal - $diskon;
+                ?>
+
+                <tr class="bottom_button">
+                  <td colspan="5">
+                    <button type="submit" class="btn_1">Update Cart</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="3"></td>
+                  <td>
+                    <h5>Subtotal</h5>
+                  </td>
+                  <td style="text-align: right;">
+                    <h5 style="white-space: nowrap;">Rp. <?php echo number_format($subtotal, 0, ',', '.'); ?></h5>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3"></td>
+                  <td>
+                    <h5>Diskon</h5>
+                  </td>
+                  <td style="text-align: right;">
+                    <h5 style="display: flex; justify-content: flex-start; gap: 5px;">Rp. <?php echo number_format($diskon, 0, ',', '.'); ?></h5>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3"></td>
+                  <td>
+                    <h5>Total Bayar</h5>
+                  </td>
+                  <td style="text-align: right;">
+                    <h5>Rp. <?php echo number_format($total_bayar, 0, ',', '.'); ?></h5>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+
+          <div class="checkout_btn_inner float-right">
+            <a class="btn_1" href="belanja.php">Continue Shopping</a>
+            <a class="btn_1 checkout_btn_1" id="checkoutBtn" href="#">Proceed to checkout</a>
+          </div>
         </div>
       </div>
   </section>
-  <!--================End Cart Area =================-->
-
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       document.getElementById("checkoutBtn").addEventListener("click", function() {
@@ -262,42 +261,21 @@
     });
   </script>
 
+  <!--================End Cart Area =================-->
+
   <!--::footer_part start::-->
   <footer class="footer_part">
     <div class="container">
       <div class="row justify-content-around">
         <div class="col-sm-6 col-lg-2">
-          <div class="single_footer_part">
-          </ul>
-          </div>
         </div>
         <div class="col-sm-6 col-lg-2">
-          <div class="single_footer_part">
-            </ul>
-          </div>
         </div>
         <div class="col-sm-6 col-lg-2">
-          <div class="single_footer_part">
-            </ul>
-          </div>
         </div>
         <div class="col-sm-6 col-lg-2">
-          <div class="single_footer_part">
-            </ul>
-          </div>
         </div>
         <div class="col-sm-6 col-lg-4">
-          <div class="single_footer_part">
-            </p>
-            <div id="mc_embed_signup">
-              <form target="_blank"
-                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                method="get" class="subscribe_form relative mail_part">
-                <div class="mt-10 info">
-                </div>
-              </form>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -310,7 +288,7 @@
               <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 Copyright &copy;<script>
                   document.write(new Date().getFullYear());
-                </script> All rights reserved | Furnisoul <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Andrea Arta</a>
+                </script> All rights reserved | Furnisoul by <a href="#" target="_blank">Andrea Arta</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
             </div>
           </div>
