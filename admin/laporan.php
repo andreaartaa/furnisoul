@@ -23,7 +23,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Laporan - Furnisoul</title>
+    <title>Laporan - Furnisoul Admin</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -114,8 +114,8 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
             </li><!-- End Dashboard Nav -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="kategori.php">
-                    <i class="bi bi-airplane"></i>
-                    <span>Kategori</span>
+                    <i class="bi bi-person"></i>
+                    <span>Kategori Produk</span>
                 </a>
             </li><!-- End Kategori Page Nav -->
 
@@ -167,113 +167,112 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
                     <li class="breadcrumb-item active">Laporan</li>
                 </ol>
             </nav>
-        </div><!-- End Page Title -->
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                       <?php
-                       include 'koneksi.php';
-
-                       // Ambil data kategori
-                       $sql_kategori = "SELECT id_kategori, nm_kategori FROM tb_kategori";
-                       $result_kategori = $koneksi->query($sql_kategori);
-
-                       // Tangkap filter kategori dari GET
-                       $filter_kategori = isset($_GET['kategori']) ? $_GET['kategori'] : '';
-                       ?>
-
-                    <div class="filter-bar  mt-3">
-                        <form class="filter-form d-flex align-items-center" method="GET" action="">
-                            <select name="kategori" class="form-select me-2" style="max-width:200px;" title="Pilih Kategori">
-                                <option value="">-- Semua Kategori --</option>";
-                                <?php
-                                if ($result_kategori->num_rows > 0) {
-                                    while ($row = $result_kategori->fetch_assoc()) {
-                                        $selected = ($filter_kategori == $row['id_kategori']) ? "selected" : "";
-                                        echo "<option value='" . $row['id_kategori'] . "'
-                                        $selected>" . htmlspecialchars($row['nm_kategori']) . "</option>";
-                                    }
-                                }
-                                ?>
-                            </select>
-                            <button type="submit" class="btn btn-primary ms-2">Filter</button>
-                        </form>
-                    </div><!-- End Filter Bar-->
-
-                    </div>
-                </div>
-            </div>
         </div>
+        <!-- End Page Title -->
 
+        <?php
+        include "koneksi.php";
+
+        if ($koneksi->connect_error) {
+            die("Koneksi gagal: " . $koneksi->connect_error);
+        }
+
+        $sqlKategori = "SELECT id_kategori, nm_kategori FROM tb_kategori";
+        $resultKategori = $koneksi->query($sqlKategori);
+
+        $sqlTransaksi = "SELECT COUNT(*) as total FROM tb_jual";
+        $resultTransaksi = $koneksi->query($sqlTransaksi);
+        $dataTransaksi = $resultTransaksi->fetch_assoc();
+        $adaTransaksi = ($dataTransaksi['total'] > 0);
+
+        ?>
+        
         <section class="section">
             <div class="row">
-
-                <div class="col-lg-12">
-
+                <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
+                            <h5 class="card-title">Cetak Laporan</h5>
 
-                            <!-- Table with stripped rows -->
-                             <?php
-                             include 'koneksi.php';
+                            <!-- Pilih Laporan -->
+                             <div class="mb-3">
+                                <label class="form-label">Pilih Laporan</label>
+                                <select id="laporanSelect" class="form-select" onchange="updateTipeLaporan()">
+                                    <option value="" selected disabled>Pilih Laporan</option>
+                                    <option value="produk">Produk</option>
+                                    <option value="transaksi">Transaksi</option>
+                                </select>
+                             </div>
 
-                             // Query untuk mengambil data pesanan dengan join ke produk dan kategori
-                             $sql = "SELECT p.id_pesanan, p.id_produk, p.qty, p.total, u.username
-                             FROM tb_pesanan p
-                             JOIN tb_user u ON p.id_user = u.id_user
-                             JOIN tb_produk pr ON p.id_produk = pr.id_produk
-                             JOIN tb_kategori k ON  pr.id_kategori = k.id_kategori";
+                             <!-- Pilih Tipe Laporan -->
+                              <div class="mb-3">
+                                <label class="form-label">Pilih Tipe Laporan</label>
+                                <select id="tipeLaporanSelect" class="form-select">
+                                    <option value="" selected disabled>Pilih Tipe Laporan</option>
+                                </select>
+                              </div>
 
-                             // Tambahkan filter kategori jika dipilih
-                             if (!empty($filter_kategori)) {
-                                $sql .= "WHERE k.id_kategori = '$filter_kategori'";
-                             }
-
-                             $result = $koneksi->query($sql);
-                             ?>
-
-                            <table class="table table-striped mt-2">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Kode Pesanan</th>
-                                        <th>Kode Produk</th>
-                                        <th>Jumlah</th>
-                                        <th>Total</th>
-                                        <th>Pengguna</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    $no = 1;
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo "<tr>";
-                                            echo "<td>" . $no++ . "</td>"; 
-                                            echo "<td>" . $row["id_pesanan"] . "</td>";
-                                            echo "<td>" . $row["id_produk"] . "</td>";
-                                            echo "<td>" . $row["qty"] . "</td>";
-                                            echo "<td>Rp " . number_format($row["total"], 0, ", ", ".") . "</td>";
-                                            echo "<td>" . $row["username"] . "</td>";
-                                            echo "</tr>";
-                                        }
-                                    } else {
-                                        echo "<tr><td colspan='6' class='text-center'>Belum ada data pesanan</td></tr>";
-                                    }
-                                    ?>
-
-
-                                </tbody>
-                            </table>
-                            <!-- End Table with stripped rows -->
-
+                              <button id="btnCetak" class="btn btn-primary">Cetak PDF</button>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <script>
+            function updateTipeLaporan() {
+                const laporanSelect = document.getElementById("laporanSelect").value;
+                const tipeLaporanSelect = document.getElementById("tipeLaporanSelect");
+
+                tipeLaporanSelect.innerHTML = "";
+
+                if (laporanSelect === "produk") {
+                    let optionAll = document.createElement("option");
+                    optionAll.value = "all";
+                    optionAll.textContent = "All";
+                    tipeLaporanSelect.appendChild(optionAll);
+
+                    <?php if ($resultKategori->num_rows > 0) : ?>
+                        <?php while ($row = $resultKategori->fetch_assoc()) : ?>
+                            let option<?php echo $row['id_kategori']; ?> = document.createElement("option");
+                            option<?php echo $row['id_kategori']; ?>.value = "<?php echo $row['id_kategori']; ?>"
+                            option<?php echo $row['id_kategori']; ?>.textContent = "<?php echo $row['nm_kategori']; ?>"
+                            tipeLaporanSelect.appendChild(option<?php echo $row['id_kategori']; ?>);
+                            <?php endwhile; ?>
+                        <?php endif; ?>
+                } else if (laporanSelect === "transaksi") {
+                    let optionAll = document.createElement("option");
+                    optionAll.value = "All";
+                    optionAll.textContent = "All";
+                    tipeLaporanSelect.appendChild(optionAll);
+                } 
+            }
+            
+            document.getElementById("btnCetak").addEventListener("click", function() {
+                const laporan = document.getElementById("laporanSelect").value;
+                const tipe = document.getElementById("tipeLaporanSelect").value;
+
+                if (!laporan || !tipe) {
+                    alert("Silahkan pilih jenis laporan dan tipe laporan terlebih dahulu.");
+                    return;
+                }
+
+                let url = "";
+
+                if (laporan === "produk") {
+                    if (tipe === "all") {
+                        url = "pdf_produk_all.php";
+                    } else {
+                        url = "pdf_produk_kategori.php?id_kategori=" + tipe;
+                    }
+                } else if (laporan === "transaksi") {
+                    url = "pdf_transaksi.php";
+                }
+
+                // Buka file PDF di tab baru
+                window.open(url, "blank");
+            });
+            </script>
 
     </main><!-- End #main -->
 

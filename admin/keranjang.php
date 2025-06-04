@@ -22,7 +22,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Keranjang - Furnisoul</title>
+    <title>Keranjang - Furnisoul Admin</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -62,8 +62,8 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
 
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown pe-3">
 
-                <li class="nav-item d-block d-lg-none">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/poster.jpeg" alt="Profile" class="rounded-circle">
 
@@ -107,8 +107,8 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
             </li><!-- End Dashboard Nav -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="kategori.php">
-                    <i class="bi bi-airplane"></i>
-                    <span>Kategori</span>
+                    <i class="bi bi-person"></i>
+                    <span>Kategori Produk</span>
                 </a>
             </li><!-- End Kategori Page Nav -->
 
@@ -177,6 +177,10 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
                        $filter_kategori = isset($_GET['kategori']) ? $_GET['kategori'] : '';
                        ?>
 
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">  
                     <div class="filter-bar  mt-3">
                         <form class="filter-form d-flex align-items-center" method="GET" action="">
                             <select name="kategori" class="form-select me-2" style="max-width:200px;" title="Pilih Kategori">
@@ -202,9 +206,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
 
         <section class="section">
             <div class="row">
-
                 <div class="col-lg-12">
-
                     <div class="card">
                         <div class="card-body">
 
@@ -217,11 +219,11 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
                              FROM tb_pesanan p
                              JOIN tb_user u ON p.id_user = u.id_user
                              JOIN tb_produk pr ON p.id_produk = pr.id_produk
-                             JOIN tb_kategori k ON  pr.id_kategori = k.id_kategori";
+                             JOIN tb_kategori k ON pr.id_kategori = k.id_kategori";
 
                              // Tambahkan filter kategori jika dipilih
                              if (!empty($filter_kategori)) {
-                                $sql .= "WHERE k.id_kategori = '$filter_kategori'";
+                                $sql .= " WHERE k.id_kategori = '$filter_kategori'";
                              }
 
                              $result = $koneksi->query($sql);

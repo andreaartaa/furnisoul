@@ -22,7 +22,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Transaksi - Furnisoul</title>
+    <title>Transaksi - Furnisoul Admin</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -62,8 +62,8 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
 
             <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
+                <li class="nav-item dropdown pe-3">
 
-                <li class="nav-item d-block d-lg-none">
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/poster.jpeg" alt="Profile" class="rounded-circle">
         
@@ -107,8 +107,8 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
             </li><!-- End Dashboard Nav -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="kategori.php">
-                    <i class="bi bi-airplane"></i>
-                    <span>Kategori</span>
+                    <i class="bi bi-person"></i>
+                    <span>Kategori Produk</span>
                 </a>
             </li><!-- End Kategori Page Nav -->
 
