@@ -67,9 +67,11 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
       </a>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
+  
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
+        
         <li class="nav-item dropdown pe-3">
 
           <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
@@ -81,11 +83,6 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
               <h6><?php echo isset($_SESSION['username']) ? htmlspecialchars($_SESSION['username']) : 'Guest'; ?></h6>
               <span>Admin</span>
             </li>
-            <li>
-              <hr class="dropdown-divider">
-            </li>
-
-           
             <li>
               <hr class="dropdown-divider">
             </li>
@@ -197,26 +194,48 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
             </div>
             <!--End Welcome Card -->
 
-            <!-- Sales Card -->
+            <?php
+            // Koneksi ke database
+            include 'koneksi.php'; // Sesuaikan dengan file koneksi yang kamu gunakan
+
+            // Ambil total jumlah pesanan dari tabel tb_pesanan
+            $query = "SELECT COUNT(*) AS total_pesanan FROM tb_jual";
+            $result = mysqli_query($koneksi, $query);
+            $data = mysqli_fetch_assoc($result);
+            $totalPesanan = $data['total_pesanan'] ?? 0; // Default ke 0 jika tidak ada pesanan
+            ?>
+
+            <!-- Orders Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card sales-card">
 
                 <div class="card-body">
                   <h5 class="card-title">Pesanan <span>| Semua Waktu</span></h5>
-
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-basket"></i> <!-- Ikon Keranjang Belanja -->
                     </div>
                     <div class="ps-3">
-                      <h6>145</h6>
-                      
+                      <h6><?php echo $totalPesanan; ?></h6>
                     </div>
                   </div>
                 </div>
-
               </div>
-            </div><!-- End Sales Card -->
+            </div><!-- End Orders Card -->
+
+            <?php
+            include 'koneksi.php';
+
+            // Ambil tanggal hari ini
+            $tanggalHariIni = date("Y-m-d");
+
+            // Query langsung ke tb_jual berdasarkan tanggal hari ini
+            $query = "SELECT SUM(total) AS total_revenue FROM tb_jual WHERE DATE (tgl_jual) = '$tanggalHariIni'";
+
+            $result = mysqli_query($koneksi, $query);
+            $data = mysqli_fetch_assoc($result);
+            $totalRevenue = $data['total_revenue'] ?? 0;
+            ?>
 
             <!-- Revenue Card -->
             <div class="col-xxl-4 col-md-6">
@@ -224,19 +243,16 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
 
                 <div class="card-body">
                   <h5 class="card-title">Pendapatan<span>| Hari ini</span></h5>
-
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center
                     justify-content-center">
                       <i class="bi bi-currency-dollar"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>Rp. 32.555</h6>
-                  
+                      <h6>Rp<?php echo number_format($totalRevenue, 0, ',', '.'); ?></h6>
                     </div>
                   </div>
                 </div>
-
               </div>
             </div><!-- End Revenue Card -->
 

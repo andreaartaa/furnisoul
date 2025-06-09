@@ -158,7 +158,7 @@
   // Tambahkan pesanan ke database
   if (isset($_POST['add_to_cart'])) {
     if (!isset($_SESSION['login'])) {
-      echo "<script>alert('Silakan login terlebih dahulu'); window.location.href='login.php'; </script>";
+      echo "<script>alert('Silakan login terlebih dahulu'); window.location.href='login.php';</script>";
     } else {
       $id_user = $_SESSION['id_user'];
       $qty = intval($_POST['qty']);
@@ -220,7 +220,7 @@
                 </a>
               </li>
             </ul>
-            <p><?php echo nl2br($produk['desk']); ?></php>
+            <p><?php echo nl2br($produk['desk']); ?></p>
 
             <form method="post">
               <div class="card_area d-flex justify-content-between align-items-center">
@@ -252,7 +252,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
           <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-            <p><?php echo nl2br($produk['desk']); ?></php>
+            <p><?php echo nl2br($produk['desk']); ?></p>
           </div>
           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="table-responsive">
@@ -336,7 +336,7 @@
               <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                 Copyright &copy;<script>
                   document.write(new Date().getFullYear());
-                </script> All rights reserved | Furnisoul by <a href="#" target="_blank">Andrea Arta</a>
+                </script> All rights reserved | Furnisoul by <a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" target="_blank">Andrea Arta</a>
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
             </div>
           </div>

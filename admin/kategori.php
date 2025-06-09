@@ -172,7 +172,6 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-
     <div class="pagetitle">
       <h1>Kategori Produk</h1>
       <nav>

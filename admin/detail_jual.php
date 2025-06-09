@@ -64,7 +64,8 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
 
-                <li class="nav-item d-block d-lg-none">
+        <li class="nav-item dropdown pe-3">
+
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="assets/img/poster.jpeg" alt="Profile" class="rounded-circle">
                     </a><!-- End Profile Iamge Icon -->
@@ -116,7 +117,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
             </li><!-- End Kategori Produk Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link" href="produk.php">
+                <a class="nav-link collapsed" href="produk.php">
                     <i class="bi bi-question-circle"></i>
                     <span>Produk</span>
                 </a>
@@ -130,7 +131,7 @@ if (!isset($_SESSION["status"]) || $_SESSION["status"] !=="admin") {
             </li><!-- End Keranjang Page Nav -->
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="transaksi.php">
+                <a class="nav-link" href="transaksi.php">
                    <i class="bi bi-card-list"></i>
                    <span>Transaksi</span>
                 </a>
