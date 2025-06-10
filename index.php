@@ -305,7 +305,7 @@
                         </div>
                         <div class="input-group">
                             <div class="input-group-append">
-                                <a href="#" class="input-group-text btn_2" id="basic-addon2">Pesan Sekarang</a>
+                                <a href="#" class="input-group-text btn_2" id="basic-addon2">Serbu Sekarang</a>
                             </div>
                         </div>
                     </div>
