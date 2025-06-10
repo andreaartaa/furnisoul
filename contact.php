@@ -248,7 +248,7 @@
               <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 Copyright &copy;<script>
 document.write(new Date().getFullYear());
-</script> All rights reserved | Furnisoul by <a href="#" target="_blank">Andrea Arta</a>
+</script> All rights reserved | Furnisoul by <a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" target="_blank">Andrea Arta</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
             </div>
           </div>

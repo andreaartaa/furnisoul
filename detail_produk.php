@@ -312,45 +312,45 @@
   <!-- product_list part end-->
 
   <!--::footer_part start::-->
-  <footer class="footer_part">
-    <div class="container">
-      <div class="row justify-content-around">
-        <div class="col-sm-6 col-lg-2">
-        </div>
-        <div class="col-sm-6 col-lg-2">
-        </div>
-        <div class="col-sm-6 col-lg-2">
-        </div>
-        <div class="col-sm-6 col-lg-2">
-        </div>
-        <div class="col-sm-6 col-lg-4">
-        </div>
-      </div>
+   <footer class="footer_part">
+        <div class="container">
+            <div class="row justify-content-around">
+                <div class="col-sm-6 col-lg-2">
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                </div>
+            </div>
 
-    </div>
-    <div class="copyright_part">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="copyright_text">
-              <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>
-                  document.write(new Date().getFullYear());
-                </script> All rights reserved | Furnisoul by <a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" target="_blank">Andrea Arta</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="footer_icon social_icon">
-              <ul class="list-unstyled">
-                <li><a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" class="single_social_icon" target="_blank"><i class="fab fa-instagram"></i></a></li>
-              </ul>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </footer>
+        <div class="copyright_part">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="copyright_text">
+                            <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;<script>
+                                    document.write(new Date().getFullYear());
+                                </script> All rights reserved | Furnisoul by <a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" target="_blank">Andrea Arta</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="footer_icon social_icon">
+                            <ul class="list-unstyled">
+                                <li><a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" class="single_social_icon" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
   <!--::footer_part end::-->
 
   <!-- jquery plugins here-->

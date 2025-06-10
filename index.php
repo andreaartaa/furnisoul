@@ -205,7 +205,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="section_tittle text-center">
-                        <h2>Cari <span>Furniture Impianmu</h2>
+                        <h2>Temukan <span>Furniture Impianmu</h2>
                     </div>
                 </div>
             </div>
@@ -422,7 +422,9 @@
                     <div class="col-lg-8">
                         <div class="copyright_text">
                             <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Furnisoul by <a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" target="_blank">Andrea Arta</a>
+Copyright &copy;<script>
+document.write(new Date().getFullYear());
+</script> All rights reserved | Furnisoul by <a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" target="_blank">Andrea Arta</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
                         </div>
                     </div>
@@ -430,8 +432,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                         <div class="footer_icon social_icon">
                             <ul class="list-unstyled">
                                 <li><a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" 
-                                class="single_social_icon" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                                
+                                class="single_social_icon" target="_blank"><i class="fab fa-instagram"></i></a></li>  
                             </ul>
                         </div>
                     </div>

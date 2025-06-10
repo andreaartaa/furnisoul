@@ -131,7 +131,7 @@ $data = mysqli_fetch_array($sql);
                             <P><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                                 Copyright &copy;<script>
                                     document.write(new Date().getFullYear());
-                                </script> All rights reserved | Furnisoul </i> by <a href="https://colorlib.com" target="_blank">Andrea Arta</a>
+                                </script> All rights reserved | Furnisoul by <a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" target="_blank">Andrea Arta</a>
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></P>
                         </div>
                     </div>
@@ -139,10 +139,6 @@ $data = mysqli_fetch_array($sql);
                         <div class="footer_icon social_icon">
                             <ul class="list-unstyled">
                                 <li><a href="https://www.instagram.com/andreaartaa?igsh=bW4wemIwOG9tZXRs" class="single_social_social_icon" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
-                                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
                             </ul>
                         </div>
                     </div>
